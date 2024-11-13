@@ -6,7 +6,7 @@ import connectedDB from './configs/mongodb.js'
 // App cofig
 const PORT = process.env.PORT || 4000
 const app = express()
-// await connectedDB()
+await connectedDB()
 
 //initialize middleware
 app.use(express.json())
