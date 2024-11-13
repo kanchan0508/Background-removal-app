@@ -1,18 +1,26 @@
-import 'dotenv/config'
-import express from 'express'
-import cors from 'cors'
-import connectedDB from './configs/mongodb.js'
+import 'dotenv/config';
+import express from 'express';
+import cors from 'cors';
+import connectedDB from './configs/mongodb.js';
 
-// App cofig
-const PORT = process.env.PORT || 4000
-const app = express()
-await connectedDB()
+// App configuration
+const PORT = process.env.PORT || 4000;
+const app = express();
 
-//initialize middleware
-app.use(express.json())
-app.use(cors())
+// Initialize middleware
+app.use(express.json());
+app.use(cors());
 
-//API routes
-app.get('/',(req, res) => res.send("API  Working"))
+// Connect to database
+async function initialize() {
+  await connectedDB();
+}
 
-app.listen(PORT, () =>console.log('Server listening on port'+ PORT))
+// API routes
+app.get('/', (req, res) => res.send("API Working"));
+
+// Export the app as a serverless function
+export default async (req, res) => {
+  await initialize(); // Ensure DB connection
+  app(req, res);      // Pass request and response to the express app
+};
