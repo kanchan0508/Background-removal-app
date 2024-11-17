@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
+import { motion } from "framer-motion";
 import { assets } from "../assets/assets";
 import { AppContext } from "../context/AppContext";
 
 const Header = () => {
-  const {removeBg} = useContext(AppContext)
+  const { removeBg } = useContext(AppContext);
+
   return (
     <div className="flex items-center justify-between max-sm:flex-col-reverse gap-y-10 px-4 mt-10 lg:px-44 sm:mt-20">
       {/* -------------------left side------------- */}
@@ -20,7 +22,7 @@ const Header = () => {
           <br className="max-sm:hidden" /> Lorem ipsum dolor sit amet.
         </p>
         <div>
-          <input onChange={e => removeBg(e.target.files[0])} type="file" accept="image/*" id="upload1" hidden />
+          <input onChange={(e) => removeBg(e.target.files[0])} type="file" accept="image/*" id="upload1" hidden />
           <label
             className="inline-flex gap-3 px-8 py-3.5 rounded-full bg-gradient-to-r from-violet-600 to-fuchsia-500 m-auto hover:scale-105 transition-all duration-700 "
             htmlFor="upload1"
@@ -30,10 +32,19 @@ const Header = () => {
           </label>
         </div>
       </div>
-      {/* -------------right side -------------- */}
-      <div className="w-full max-w-md">
-        <img src={assets.header_img} alt="" />
-      </div>
+      {/* -------------right side with repeating animation -------------- */}
+      <motion.div
+        className="w-full max-w-md"
+        animate={{ y: [0, -10, 0] }} 
+        transition={{
+          duration: 2, 
+          ease: "easeInOut", 
+          repeat: Infinity,
+          repeatType: "mirror" // Animates back and forth
+        }}
+      >
+        <img src={assets.header_img} alt="Header" />
+      </motion.div>
     </div>
   );
 };
